@@ -7,7 +7,7 @@ from hull import *
 
 h = concave_hull(dataset, k)
 ```
-The dataset is a list of points in tuple form (x, y). The argument k is the number of nearest neighbours the algorithm is using internally. If the hull does not contain every point from the dataset the algorithm will call itself again with a higher k.
+The dataset is a list of points in tuple form (x, y). The argument k is the number of nearest neighbours the algorithm is using internally. If the hull does not contain every point from the dataset, the algorithm will call itself again with a higher k.
 
 Here are some examples:
 ![10_points.png](https://raw.githubusercontent.com/jsmolka/hull/master/pictures/10_points.png)
