@@ -1,7 +1,7 @@
 # hull
 Concave hull around dataset of points.
 
-# How to use
+## How to use
 ```python
 from hull import *
 
@@ -16,8 +16,8 @@ Here are some examples:
 ![100_points.png](https://raw.githubusercontent.com/jsmolka/hull/master/pictures/100_points.png)
 ![200_points.png](https://raw.githubusercontent.com/jsmolka/hull/master/pictures/200_points.png)
 
-# Reference
+## Reference
 The algorithm is based on a [paper](https://github.com/jsmolka/hull/blob/master/reference/concave_hull.pdf) by Adriano Moreira and Maribel Yasmina Santos.
 
-# Disclaimer
+## Disclaimer
 I copied / ported some part from [Matotempo's](https://github.com/Mapotempo/mapotempo-web/blob/master/lib/concave_hull.rb) Ruby approach.
