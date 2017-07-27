@@ -7,7 +7,7 @@ from hull import *
 
 h = concave_hull(dataset, k)
 ```
-The dataset is a list of points in tuple form (x, y). The argument k is the number of nearest neighbours the algorithm is using internally. If the hull does not contain every point from the dataset, the algorithm will call itself again with a higher k.
+The function takes two arguments. The first one is a dataset containing points in tuple form (x, y). The second one defines the number of nearest neighbours the algorithm is using interally. If there are some point outside the hull, the algorithm will call itself again with a higher k until all point are in the concave hull.
 
 Here are some examples:
 ![10_points.png](https://raw.githubusercontent.com/jsmolka/hull/master/pictures/10_points.png)
@@ -20,4 +20,4 @@ Here are some examples:
 The algorithm is based on a [paper](https://github.com/jsmolka/hull/blob/master/reference/concave_hull.pdf) by Adriano Moreira and Maribel Yasmina Santos.
 
 ## Disclaimer
-I copied / ported some part from [Matotempo's](https://github.com/Mapotempo/mapotempo-web/blob/master/lib/concave_hull.rb) Ruby approach.
+I copied / ported some parts from [Matotempo's](https://github.com/Mapotempo/mapotempo-web/blob/master/lib/concave_hull.rb) Ruby approach.
