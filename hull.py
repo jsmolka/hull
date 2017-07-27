@@ -1,9 +1,9 @@
 import math
 
 
-def knn(dataset, cp, k):
-    """Calculates k nearest neighbours for a given target"""
-    return sorted(dataset, key=lambda x: math.sqrt((x[0] - cp[0]) ** 2 + (x[1] - cp[1]) ** 2))[0:k]
+def knn(dataset, p, k):
+    """Calculates k nearest neighbours for a given point"""
+    return sorted(dataset, key=lambda x: math.sqrt((x[0] - p[0]) ** 2 + (x[1] - p[1]) ** 2))[0:k]
 
 
 def intersects(p1, p2, p3, p4):
@@ -46,9 +46,9 @@ def intersects(p1, p2, p3, p4):
     return True
 
 
-def angle(p, cp, previous_angle=0):
+def angle(p1, p2, previous_angle=0):
     """Calculates angle between two points and previous angle"""
-    return (math.atan2(p[1] - cp[1], p[0] - cp[0]) - previous_angle) % (math.pi * 2) - math.pi
+    return (math.atan2(p1[1] - p2[1], p1[0] - p2[0]) - previous_angle) % (math.pi * 2) - math.pi
 
 
 def point_in_polygon(point, polygon):
