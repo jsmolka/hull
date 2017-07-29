@@ -16,6 +16,9 @@ Here are some examples:
 ![100_points.png](https://raw.githubusercontent.com/jsmolka/hull/master/pictures/100_points.png)
 ![200_points.png](https://raw.githubusercontent.com/jsmolka/hull/master/pictures/200_points.png)
 
+## Requirements
+- [pyprocessing](https://github.com/jsmolka/pyprocessing) if you want to run the visual example
+
 ## Reference
 The algorithm is based on a [paper](https://github.com/jsmolka/hull/blob/master/reference/concave_hull.pdf) by Adriano Moreira and Maribel Yasmina Santos.
 
