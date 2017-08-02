@@ -1,5 +1,5 @@
 # hull
-Concave hull around dataset of points.
+Concave hull around a dataset of points.
 
 ## How to use
 ```python
