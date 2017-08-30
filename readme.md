@@ -18,7 +18,7 @@ convex_hull = hull.convex(points)  # Create convex hull
 ```
 The code above creates the following results:
 
-![concave.png](https://raw.githubusercontent.com/jsmolka/hull/master/example/concave.png) ![convex.png](https://raw.githubusercontent.com/jsmolka/hull/master/example/convex.png)
+<img src="https://raw.githubusercontent.com/jsmolka/hull/master/example/concave.png" width="380"><img src="https://raw.githubusercontent.com/jsmolka/hull/master/example/convex.png" width="380">
 
 ## Requirements
 - [pyprocessing](https://github.com/jsmolka/pyprocessing) if you want to run the visual examples
