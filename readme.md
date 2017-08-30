@@ -1,18 +1,24 @@
 # hull
-Concave hull around a dataset of points.
+Concave or convex hull around a list of points.
 
 ## How to use
 ```python
-from hull import *
+import hull
 
-h = concave_hull(dataset, k)
+points = [
+    (207, 184), (393, 60), (197, 158), (197, 114), (128, 261), (442, 40),
+    (237, 159), (338, 75), (194, 93), (33, 159), (393, 152), (433, 267),
+    (324, 141), (384, 183), (273, 165), (250, 257), (423, 198), (227, 68),
+    (120, 184), (214, 49), (256, 75), (379, 93), (312, 49), (471, 187),
+    (366, 122)
+]
+
+concave_hull = hull.concave(points, 3)  # Create concave hull
+convex_hull = hull.convex(points)  # Create convex hull
 ```
-The function takes two arguments. The first one is a dataset containing points in tuple form (x, y). The second one defines the number of nearest neighbours the algorithm is using interally. If there are some points outside the hull, the algorithm will call itself again with a higher k until all points are inside the concave hull.
+The code above creates the following results:
 
-## Examples
-![10.png](https://raw.githubusercontent.com/jsmolka/hull/master/pictures/10.png)
-![50.png](https://raw.githubusercontent.com/jsmolka/hull/master/pictures/50.png)
-![200.png](https://raw.githubusercontent.com/jsmolka/hull/master/pictures/200.png)
+![concave.png](https://raw.githubusercontent.com/jsmolka/hull/master/example/concave.png) ![convex.png](https://raw.githubusercontent.com/jsmolka/hull/master/example/convex.png)
 
 ## Requirements
 - [pyprocessing](https://github.com/jsmolka/pyprocessing) if you want to run the visual examples
