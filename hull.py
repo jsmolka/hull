@@ -1,9 +1,9 @@
 import math
 
 
-def knn(dataset, p, k):
+def knn(points, p, k):
     """Calculates k nearest neighbours for a given point"""
-    return sorted(dataset, key=lambda x: math.sqrt((x[0] - p[0]) ** 2 + (x[1] - p[1]) ** 2))[0:k]
+    return sorted(points, key=lambda x: math.sqrt((x[0] - p[0]) ** 2 + (x[1] - p[1]) ** 2))[0:k]
 
 
 def intersects(p1, p2, p3, p4):
@@ -67,12 +67,12 @@ def point_in_polygon(point, polygon):
     return inside
 
 
-def concave_hull(vector, k):
+def concave(points, k):
     """Calculates the concave hull for given points
-    The dataset contains a list of points [(x, y), ...]
+    Input is a list of 2D points [(x, y), ...]
     k defines the number of of considered neighbours"""
     k = max(k, 3)  # Make sure k >= 3
-    dataset = vector[:]
+    dataset = list(set(points[:]))  # Remove duplicates
     if len(dataset) < 3:
         raise Exception("Dataset length cannot be smaller than 3")
     elif len(dataset) == 3:
@@ -101,7 +101,7 @@ def concave_hull(vector, k):
                 its = intersects(hull[-1], c_points[i], hull[-j - 1], hull[-j])
                 j += 1
         if its:  # All points intersect, try again with higher number of neighbours
-            return concave_hull(vector, k + 1)
+            return concave(points, k + 1)
         previous_angle = angle(c_points[i], current_point)
         current_point = c_points[i]
         hull.append(current_point)  # Valid candidate was found
@@ -109,6 +109,35 @@ def concave_hull(vector, k):
 
     for point in dataset:
         if not point_in_polygon(point, hull):
-            return concave_hull(vector, k + 1)
+            return concave(points, k + 1)
 
     return hull
+
+
+def convex(points):
+    """Calculates the convex hull for given points
+    Input is a list of 2D points [(x, y), ...]"""
+
+    def cross(o, a, b):
+        """Calculates cross product"""
+        return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
+
+    points = sorted(set(points))  # Remove duplicates
+    if len(points) <= 1:
+        return points
+
+    # Build lower hull
+    lower = []
+    for p in points:
+        while len(lower) >= 2 and cross(lower[-2], lower[-1], p) <= 0:
+            lower.pop()
+        lower.append(p)
+
+    # Build upper hull
+    upper = []
+    for p in reversed(points):
+        while len(upper) >= 2 and cross(upper[-2], upper[-1], p) <= 0:
+            upper.pop()
+        upper.append(p)
+
+    return lower[:-1] + upper[:-1]
