@@ -13,8 +13,8 @@ points = [
     (366, 122)
 ]
 
-concave_hull = hull.concave(points, 3)  # Create concave hull
-convex_hull = hull.convex(points)  # Create convex hull
+concave_hull = hull.concave(points, 3)
+convex_hull = hull.convex(points)
 ```
 The code above creates the following results:
 
@@ -23,8 +23,10 @@ The code above creates the following results:
 ## Requirements
 - [pyprocessing](https://github.com/jsmolka/pyprocessing) if you want to run the visual examples
 
-## Reference
-The algorithm is based on a [paper](https://github.com/jsmolka/hull/blob/master/reference/concave_hull.pdf) by Adriano Moreira and Maribel Yasmina Santos.
+## References
+- The concave hull algorithm is based on a [paper](https://github.com/jsmolka/hull/blob/master/reference/concave_hull.pdf) by Adriano Moreira and Maribel Yasmina Santos.
+- The convex hull algorithm is an implementation of Andrew's monotone chain algorithm.
 
 ## Disclaimer
-I copied / ported some parts from [Matotempo's](https://github.com/Mapotempo/mapotempo-web/blob/master/lib/concave_hull.rb) Ruby approach.
+- Some parts of the concave hull algorithm were copied from [Matotempo's](https://github.com/Mapotempo/mapotempo-web/blob/master/lib/concave_hull.rb) Ruby approach.
+- The entire convex hull algorithm is copy-pasted from a [wikibook](https://en.wikibooks.org/wiki/Algorithm_Implementation/Geometry/Convex_hull/Monotone_chain) about algorithm implementations.
