@@ -2,12 +2,25 @@ import math
 
 
 def knn(points, p, k):
-    """Calculates k nearest neighbours for a given point"""
+    """
+    Calculates k nearest neighbours for a given point.
+
+    :param points: list of points
+    :param p: reference point
+    :param k: amount of neighbours
+    :return: list
+    """
     return sorted(points, key=lambda x: math.sqrt((x[0] - p[0]) ** 2 + (x[1] - p[1]) ** 2))[0:k]
 
 
 def intersects(p1, p2, p3, p4):
-    """Checks if lines p1, p2 and p3, p4 intersect"""
+    """
+    Checks if lines p1, p2 and p3, p4 intersect.
+
+    :param p1, p2: line 1
+    :param p3, p4: line 2
+    :return: bool
+    """
     p0_x, p0_y = p1
     p1_x, p1_y = p2
     p2_x, p2_y = p3
@@ -47,15 +60,27 @@ def intersects(p1, p2, p3, p4):
 
 
 def angle(p1, p2, previous_angle=0):
-    """Calculates angle between two points and previous angle"""
+    """
+    Calculates angle between two points and previous angle.
+
+    :param p1: point
+    :param p2: point
+    :param previous_angle: previous angle
+    :return: float
+    """
     return (math.atan2(p1[1] - p2[1], p1[0] - p2[0]) - previous_angle) % (math.pi * 2) - math.pi
 
 
 def point_in_polygon(point, polygon):
-    """Checks if point is in polygon"""
-    inside = False
+    """
+    Checks if point is in polygon.
+
+    :param point: point
+    :param polygon: polygon
+    :return: bool
+    """
     size = len(polygon)
-    for i in range(0, size):
+    for i in range(size):
         min_ = min([polygon[i][0], polygon[(i + 1) % size][0]])
         max_ = max([polygon[i][0], polygon[(i + 1) % size][0]])
         if min_ < point[0] <= max_:
@@ -63,14 +88,20 @@ def point_in_polygon(point, polygon):
             q = polygon[i][0] - polygon[(i + 1) % size][0]
             point_y = (point[0] - polygon[i][0]) * p / q + polygon[i][1]
             if point_y < point[1]:
-                inside = True
-    return inside
+                return True
+    return False
 
 
 def concave(points, k):
-    """Calculates the concave hull for given points
+    """
+    Calculates the concave hull for given points
     Input is a list of 2D points [(x, y), ...]
-    k defines the number of of considered neighbours"""
+    k defines the number of of considered neighbours
+
+    :param points: list of points
+    :param k: considered neighbours
+    :return: list
+    """
     k = max(k, 3)  # Make sure k >= 3
     dataset = list(set(points[:]))  # Remove duplicates
     if len(dataset) < 3:
@@ -114,14 +145,23 @@ def concave(points, k):
     return hull
 
 
+def cross(o, a, b):
+    """
+    Calculates cross product.
+
+    :return: int
+    """
+    return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
+
+
 def convex(points):
-    """Calculates the convex hull for given points
-    Input is a list of 2D points [(x, y), ...]"""
+    """
+    Calculates the convex hull for given points
+    Input is a list of 2D points [(x, y), ...]
 
-    def cross(o, a, b):
-        """Calculates cross product"""
-        return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
-
+    :param points: list of points
+    :return: list
+    """
     points = sorted(set(points))  # Remove duplicates
     if len(points) <= 1:
         return points

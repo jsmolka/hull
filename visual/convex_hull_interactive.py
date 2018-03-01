@@ -13,6 +13,11 @@ c_hull = []  # Convex hull
 
 
 def setup():
+    """
+    Setup.
+
+    :return: None
+    """
     size(WIDTH, HEIGHT)
     fill(0)
     stroke(0)
@@ -20,6 +25,11 @@ def setup():
 
 
 def mouseClicked():
+    """
+    Mouse clicked event.
+
+    :return: None
+    """
     global points, c_hull
     background(255)  # Redraw background to delete old scenery
     points.append((mouse.x, mouse.y))
@@ -27,7 +37,7 @@ def mouseClicked():
         ellipse(p[0], p[1], SIZE, SIZE)
     if len(points) >= 3:
         c_hull = hull.convex(points)  # Calculate convex hull
-        for i in range(0, len(c_hull) - 1):
+        for i in range(len(c_hull) - 1):
             line(c_hull[i], c_hull[i + 1])
         line(c_hull[-1], c_hull[0])  # Close hull
 
