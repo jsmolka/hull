@@ -149,6 +149,8 @@ def cross(o, a, b):
     """
     Calculates cross product.
 
+    :param o, a: vector 1
+    :param o, b: vector 2
     :return: int
     """
     return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
