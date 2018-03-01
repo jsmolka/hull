@@ -1,0 +1,7 @@
+# Compiled files
+*.pyc
+*.pyo
+*.pyd
+
+# Directories
+.idea/
