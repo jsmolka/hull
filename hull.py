@@ -63,7 +63,8 @@ def angle(p1, p2, previous_angle=0):
     """
     Calculates angle between two points and previous angle.
 
-    :param p1, p2: point
+    :param p1: point
+    :param p2: point
     :param previous_angle: previous angle
     :return: float
     """
