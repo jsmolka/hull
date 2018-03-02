@@ -17,8 +17,8 @@ def intersects(p1, p2, p3, p4):
     """
     Checks if lines p1, p2 and p3, p4 intersect.
 
-    :param p1, p2: line 1
-    :param p3, p4: line 2
+    :param p1, p2: line
+    :param p3, p4: line
     :return: bool
     """
     p0_x, p0_y = p1
@@ -63,8 +63,7 @@ def angle(p1, p2, previous_angle=0):
     """
     Calculates angle between two points and previous angle.
 
-    :param p1: point
-    :param p2: point
+    :param p1, p2: point
     :param previous_angle: previous angle
     :return: float
     """
@@ -149,8 +148,8 @@ def cross(o, a, b):
     """
     Calculates cross product.
 
-    :param o, a: vector 1
-    :param o, b: vector 2
+    :param o, a: vector
+    :param o, b: vector
     :return: int
     """
     return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
