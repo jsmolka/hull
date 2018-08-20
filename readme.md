@@ -28,5 +28,5 @@ The code above creates the following results:
 - The convex hull algorithm is an implementation of Andrew's monotone chain algorithm.
 
 ## Disclaimer
-- Some parts of the concave hull algorithm were copied from [Matotempo's](https://github.com/Mapotempo/mapotempo-web/blob/master/lib/concave_hull.rb) Ruby approach.
+- Some parts of the concave hull algorithm were copied from [Mapotempo's](https://github.com/Mapotempo/mapotempo-web/blob/master/lib/concave_hull.rb) Ruby approach.
 - The entire convex hull algorithm is copy-pasted from a [wikibook](https://en.wikibooks.org/wiki/Algorithm_Implementation/Geometry/Convex_hull/Monotone_chain) about algorithm implementations.
