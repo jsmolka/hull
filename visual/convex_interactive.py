@@ -1,23 +1,16 @@
 import hull
 from pyprocessing import *
-from random import randint
 
-# Configuration
 HEIGHT = 500
 WIDTH = 1000
 SIZE = 5
 
-# Define variables
-points = []  # List of displayed points
-c_hull = []  # Convex hull
+points = []
+convex = []
 
 
 def setup():
-    """
-    Setup.
-
-    :return: None
-    """
+    """Initial setup function."""
     size(WIDTH, HEIGHT)
     fill(0)
     stroke(0)
@@ -25,21 +18,20 @@ def setup():
 
 
 def mouseClicked():
-    """
-    Mouse clicked event.
-
-    :return: None
-    """
-    global points, c_hull
-    background(255)  # Redraw background to delete old scenery
+    """Mouse click event function."""
+    global points, convex
+ 
+    background(255)
     points.append((mouse.x, mouse.y))
+ 
     for p in points:
         ellipse(p[0], p[1], SIZE, SIZE)
+ 
     if len(points) >= 3:
-        c_hull = hull.convex(points)  # Calculate convex hull
-        for i in range(len(c_hull) - 1):
-            line(c_hull[i], c_hull[i + 1])
-        line(c_hull[-1], c_hull[0])  # Close hull
+        convex = hull.convex(points)
+        for i in range(len(convex) - 1):
+            line(convex[i], convex[i + 1])
+        line(convex[-1], convex[0])
 
 
 run()

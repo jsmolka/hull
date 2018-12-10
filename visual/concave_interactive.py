@@ -1,22 +1,16 @@
 import hull
 from pyprocessing import *
 
-# Configuration
 HEIGHT = 500
 WIDTH = 1000
 SIZE = 5
 
-# Define variables
-points = []  # List of displayed points
-c_hull = []  # Concave hull
+points = []
+concave = []
 
 
 def setup():
-    """
-    Setup.
-
-    :return: None
-    """
+    """Initial setup function."""
     size(WIDTH, HEIGHT)
     fill(0)
     stroke(0)
@@ -24,21 +18,20 @@ def setup():
 
 
 def mouseClicked():
-    """
-    Mouse clicked event.
-
-    :return: None
-    """
-    global points, c_hull
-    background(255)  # Redraw background to delete old scenery
+    """Mouse click event function."""
+    global points, concave
+ 
+    background(255)
     points.append((mouse.x, mouse.y))
+ 
     for p in points:
         ellipse(p[0], p[1], SIZE, SIZE)
+ 
     if len(points) >= 3:
-        c_hull = hull.concave(points, 3)  # Calculate concave hull
-        for i in range(len(c_hull) - 1):
-            line(c_hull[i], c_hull[i + 1])
-        line(c_hull[-1], c_hull[0])  # Close hull
+        concave = hull.concave(points)
+        for i in range(len(concave) - 1):
+            line(concave[i], concave[i + 1])
+        line(concave[-1], concave[0])
 
 
 run()

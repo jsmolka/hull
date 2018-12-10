@@ -1,142 +1,160 @@
 import math
 
 
+def distance(p1, p2):
+    """
+    Calculates the distance between two points.
+
+    :param p1, p2: points
+    :return: distance between points
+    """
+    p1x, p1y = p1
+    p2x, p2y = p2
+
+    return math.sqrt((p1x - p2x) ** 2 + (p2y - p2y) ** 2)
+
+
 def knn(points, p, k):
     """
-    Calculates k nearest neighbours for a given point.
+    Calculates the k nearest neighbours of a point.
 
     :param points: list of points
     :param p: reference point
     :param k: amount of neighbours
-    :return: list
+    :return: list of k neighbours
     """
-    return sorted(points, key=lambda x: math.sqrt((x[0] - p[0]) ** 2 + (x[1] - p[1]) ** 2))[0:k]
+    return sorted(points, key=lambda x: distance(p, x))[:k]
 
 
 def intersects(p1, p2, p3, p4):
     """
-    Checks if lines p1, p2 and p3, p4 intersect.
+    Checks if the lines [p1, p2] and [p3, p4] intersect.
 
     :param p1, p2: line
     :param p3, p4: line
-    :return: bool
+    :return: lines intersect
     """
-    p0_x, p0_y = p1
-    p1_x, p1_y = p2
-    p2_x, p2_y = p3
-    p3_x, p3_y = p4
+    p0x, p0y = p1
+    p1x, p1y = p2
+    p2x, p2y = p3
+    p3x, p3y = p4
 
-    s10_x = p1_x - p0_x
-    s10_y = p1_y - p0_y
-    s32_x = p3_x - p2_x
-    s32_y = p3_y - p2_y
+    s10x = p1x - p0x
+    s10y = p1y - p0y
+    s32x = p3x - p2x
+    s32y = p3y - p2y
 
-    denom = s10_x * s32_y - s32_x * s10_y
+    denom = s10x * s32y - s32x * s10y
     if denom == 0:
         return False
 
     denom_positive = denom > 0
-    s02_x = p0_x - p2_x
-    s02_y = p0_y - p2_y
-    s_numer = s10_x * s02_y - s10_y * s02_x
+    s02x = p0x - p2x
+    s02y = p0y - p2y
+    s_numer = s10x * s02y - s10y * s02x
     if (s_numer < 0) == denom_positive:
         return False
 
-    t_numer = s32_x * s02_y - s32_y * s02_x
+    t_numer = s32x * s02y - s32y * s02x
     if (t_numer < 0) == denom_positive:
         return False
 
-    if ((s_numer > denom) == denom_positive) or ((t_numer > denom) == denom_positive):
+    if (s_numer > denom) == denom_positive or (t_numer > denom) == denom_positive:
         return False
 
     t = t_numer / denom
-    x = p0_x + (t * s10_x)
-    y = p0_y + (t * s10_y)
+    x = p0x + (t * s10x)
+    y = p0y + (t * s10y)
 
-    if (x, y) in [p1, p2, p3, p4]:
-        return False
-
-    return True
+    return (x, y) not in [p1, p2, p3, p4]
 
 
-def angle(p1, p2, previous_angle=0):
+def angle(p1, p2, previous=0):
     """
-    Calculates angle between two points and previous angle.
+    Calculates the angle between two points.
 
-    :param p1: point
-    :param p2: point
-    :param previous_angle: previous angle
-    :return: float
+    :param p1, p2: points
+    :param previous: previous angle
+    :return: angle
     """
-    return (math.atan2(p1[1] - p2[1], p1[0] - p2[0]) - previous_angle) % (math.pi * 2) - math.pi
+    p1x, p1y = p1
+    p2x, p2y = p2
+
+    return (math.atan2(p1y - p2y, p1x - p2x) - previous) % (math.pi * 2) - math.pi
 
 
 def point_in_polygon(point, polygon):
     """
-    Checks if point is in polygon.
+    Checks if a point is inside a polygon.
 
     :param point: point
     :param polygon: polygon
-    :return: bool
+    :return: point is inside polygon
     """
+    px, py = point
+
     size = len(polygon)
     for i in range(size):
-        min_ = min([polygon[i][0], polygon[(i + 1) % size][0]])
-        max_ = max([polygon[i][0], polygon[(i + 1) % size][0]])
-        if min_ < point[0] <= max_:
-            p = polygon[i][1] - polygon[(i + 1) % size][1]
-            q = polygon[i][0] - polygon[(i + 1) % size][0]
-            point_y = (point[0] - polygon[i][0]) * p / q + polygon[i][1]
-            if point_y < point[1]:
+        p1x, p1y = polygon[i]
+        p2x, p2y = polygon[(i + 1) % size]
+        if min(p1x, p2x) < px <= max(p1x, p2x):
+            p = p1y - p2y
+            q = p1x - p2x
+            y = (px - p1x) * p / q + p1y
+            if y < py:
                 return True
+
     return False
 
 
-def concave(points, k):
+def concave(points, k=3):
     """
-    Calculates the concave hull for given points
-    Input is a list of 2D points [(x, y), ...]
-    k defines the number of of considered neighbours
+    Calculates the concave hull for a list of points. Each point is a tuple
+    containing the x- and y-coordinate. k defines the number of considered
+    neighbours.
 
     :param points: list of points
     :param k: considered neighbours
-    :return: list
+    :return: concave hull
     """
-    k = max(k, 3)  # Make sure k >= 3
-    dataset = list(set(points[:]))  # Remove duplicates
+    dataset = list(set(points))  # Remove duplicates
     if len(dataset) < 3:
         raise Exception("Dataset length cannot be smaller than 3")
-    elif len(dataset) == 3:
+    if len(dataset) == 3:
         return dataset  # Points are a polygon already
-    k = min(k, len(dataset) - 1)  # Make sure k neighbours can be found
+    
+    k = min(max(k, 3), len(dataset) - 1)  # Make sure that k neighbours can be found
 
-    first_point = current_point = min(dataset, key=lambda x: x[1])
-    hull = [first_point]  # Initialize hull with first point
-    dataset.remove(first_point)  # Remove first point from dataset
+    first = current = min(dataset, key=lambda x: x[1])
+    hull = [first]  # Initialize hull
+    dataset.remove(first)  # Remove processed point
     previous_angle = 0
 
-    while (current_point != first_point or len(hull) == 1) and len(dataset) > 0:
+    while (current != first or len(hull) == 1) and len(dataset) > 0:
         if len(hull) == 3:
-            dataset.append(first_point)  # Add first point again
-        kn_points = knn(dataset, current_point, k)  # Find nearest neighbours
-        c_points = sorted(kn_points, key=lambda x: -angle(x, current_point, previous_angle))
+            dataset.append(first)  # Add first point again
+
+        neighbours = knn(dataset, current, k)
+        c_points = sorted(neighbours, key=lambda x: -angle(x, current, previous_angle))
 
         its = True
         i = -1
         while its and i < len(c_points) - 1:
             i += 1
-            last_point = 1 if c_points[i] == first_point else 0
+            last_point = 1 if c_points[i] == first else 0
             j = 1
             its = False
             while not its and j < len(hull) - last_point:
                 its = intersects(hull[-1], c_points[i], hull[-j - 1], hull[-j])
                 j += 1
-        if its:  # All points intersect, try again with higher number of neighbours
+
+        if its:  # All points intersect, try again with higher a number of neighbours
             return concave(points, k + 1)
-        previous_angle = angle(c_points[i], current_point)
-        current_point = c_points[i]
-        hull.append(current_point)  # Valid candidate was found
-        dataset.remove(current_point)
+
+        previous_angle = angle(c_points[i], current)
+        current = c_points[i]
+        hull.append(current)  # Valid candidate was found
+        dataset.remove(current)
 
     for point in dataset:
         if not point_in_polygon(point, hull):
@@ -147,37 +165,41 @@ def concave(points, k):
 
 def cross(o, a, b):
     """
-    Calculates cross product.
+    Calculates cross between two vectors.
 
     :param o, a: vector
     :param o, b: vector
-    :return: int
+    :return: cross product
     """
-    return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
+    ox, oy = o
+    ax, ay = a
+    bx, by = b
+
+    return (ax - ox) * (by - oy) - (ay - oy) * (bx - ox)
 
 
 def convex(points):
     """
-    Calculates the convex hull for given points
-    Input is a list of 2D points [(x, y), ...]
+    Calculates the concave hull for a list of points. Each point is a tuple
+    containing the x- and y-coordinate.
 
     :param points: list of points
-    :return: list
+    :return: convex hull
     """
-    points = sorted(set(points))  # Remove duplicates
-    if len(points) <= 1:
-        return points
+    dataset = sorted(set(points))  # Remove duplicates
+    if len(dataset) <= 1:
+        return dataset
 
     # Build lower hull
     lower = []
-    for p in points:
+    for p in dataset:
         while len(lower) >= 2 and cross(lower[-2], lower[-1], p) <= 0:
             lower.pop()
         lower.append(p)
 
     # Build upper hull
     upper = []
-    for p in reversed(points):
+    for p in reversed(dataset):
         while len(upper) >= 2 and cross(upper[-2], upper[-1], p) <= 0:
             upper.pop()
         upper.append(p)

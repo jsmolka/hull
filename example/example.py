@@ -8,5 +8,5 @@ points = [
     (366, 122)
 ]
 
-concave_hull = hull.concave(points, 3)
-convex_hull = hull.convex(points)
+concave = hull.concave(points, 3)
+convex = hull.convex(points)
